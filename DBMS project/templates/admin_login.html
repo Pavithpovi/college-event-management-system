@@ -1,0 +1,331 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
+    @keyframes shimmer {
+        0% {
+            background-position: -1000px 0;
+        }
+        100% {
+            background-position: 1000px 0;
+        }
+    }
+
+    @keyframes rotateIn {
+        from {
+            opacity: 0;
+            transform: rotate(-10deg) scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: rotate(0) scale(1);
+        }
+    }
+
+    @keyframes gradientShift {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+    
+    .auth-container {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background-size: 200% 200%;
+        animation: gradientShift 15s ease infinite;
+        padding: 2rem 0;
+        animation: fadeInUp 0.8s ease-out;
+        color: white;
+    }
+    .auth-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        animation: slideInRight 0.8s ease-out;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .auth-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    }
+    .auth-header {
+        background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+        background-size: 200% 200%;
+        animation: gradientShift 15s ease infinite;
+        border-radius: 15px 15px 0 0;
+        padding: 1.5rem;
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+    .auth-header h4 {
+        color: white;
+        font-weight: 600;
+    }
+    .auth-body {
+        padding: 2rem;
+    }
+    .btn-primary {
+        background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+        background-size: 200% 200%;
+        animation: gradientShift 15s ease infinite;
+        border: none;
+        padding: 0.8rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        animation: fadeInUp 0.8s ease-out 0.4s both;
+        position: relative;
+        overflow: hidden;
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        animation: pulse 1s infinite;
+    }
+    .btn-primary::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        animation: shimmer 2s infinite;
+    }
+    .form-control {
+        border-radius: 8px;
+        padding: 0.8rem;
+        border: 1px solid #e0e0e0;
+        transition: all 0.3s ease;
+        animation: fadeInUp 0.8s ease-out 0.3s both;
+    }
+    .form-control:focus {
+        box-shadow: 0 0 0 0.2rem rgba(75, 108, 183, 0.25);
+        border-color: #4b6cb7;
+        transform: translateY(-2px);
+    }
+    .form-label {
+        color: #333;
+        font-weight: 500;
+    }
+    .auth-links a {
+        color: #4b6cb7;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        animation: fadeInUp 0.8s ease-out 0.5s both;
+        position: relative;
+    }
+    .auth-links a:hover {
+        color: #182848;
+        text-decoration: none;
+        transform: translateX(5px);
+    }
+    .auth-links a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background: linear-gradient(90deg, #4b6cb7, #182848);
+        transition: width 0.3s ease;
+    }
+    .auth-links a:hover::after {
+        width: 100%;
+    }
+    .auth-links p {
+        color: #333;
+    }
+    .image-section {
+        background: url('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') center/cover;
+        min-height: 100%;
+        position: relative;
+        animation: slideInLeft 0.8s ease-out;
+    }
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(75, 108, 183, 0.9) 0%, rgba(24, 40, 72, 0.9) 100%);
+        background-size: 200% 200%;
+        animation: gradientShift 15s ease infinite;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        color: white;
+        text-align: center;
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+    .image-text h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        animation: fadeInUp 0.8s ease-out 0.3s both;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .image-text p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        animation: fadeInUp 0.8s ease-out 0.4s both;
+        color: white;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+    .alert {
+        animation: rotateIn 0.5s ease-out;
+    }
+    .form-group {
+        animation: fadeInUp 0.8s ease-out 0.3s both;
+    }
+    @media (max-width: 768px) {
+        .image-section {
+            min-height: 300px;
+        }
+    }
+</style>
+
+<div class="auth-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="row g-0">
+                    <div class="col-md-6">
+                        <div class="image-section">
+                            <div class="image-overlay">
+                                <div class="image-text">
+                                    <h2>Feedback Management System</h2>
+                                    <p>A comprehensive solution for collecting, analyzing, and managing customer feedback.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="auth-card h-100">
+                            <div class="auth-header text-white">
+                                <h4 class="mb-0 text-center">Admin Login</h4>
+                            </div>
+                            <div class="auth-body">
+                                {% with messages = get_flashed_messages(with_categories=true) %}
+                                    {% if messages %}
+                                        {% for category, message in messages %}
+                                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endwith %}
+                                
+                                <form method="POST" action="{{ url_for('admin_login') }}" class="needs-validation" novalidate>
+                                    <div class="mb-4">
+                                        <label for="username" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="username" name="username" required>
+                                        <div class="invalid-feedback">Please enter your username.</div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                        <div class="invalid-feedback">Please enter your password.</div>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary">Login</button>
+                                    </div>
+                                </form>
+                                
+                                <div class="auth-links mt-4 text-center">
+                                    <p>Are you a faculty member? <a href="{{ url_for('faculty_login') }}">Login as Faculty</a></p>
+                                    <p>Are you a student? <a href="{{ url_for('student_login') }}">Login as Student</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Form validation
+(function () {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+</script>
+{% endblock %} 
