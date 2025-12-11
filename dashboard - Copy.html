@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2>Welcome, {{ session.username }}!</h2>
+            <p class="text-muted">Role: {{ session.role|title }}</p>
+        </div>
+        <div class="col-md-4 text-end">
+            {% if session.role == 'faculty' %}
+                <a href="{{ url_for('create_event') }}" class="btn btn-primary">Create New Event</a>
+                <a href="{{ url_for('reports') }}" class="btn btn-info">View Reports</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Events</h4>
+                </div>
+                <div class="card-body">
+                    {% if events %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        <th>Location</th>
+                                        <th>Category</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for event in events %}
+                                        <tr>
+                                            <td>
+                                                <a href="{{ url_for('event_details', event_id=event.id) }}">
+                                                    {{ event.title }}
+                                                </a>
+                                            </td>
+                                            <td>{{ event.date }}</td>
+                                            <td>{{ event.time }}</td>
+                                            <td>{{ event.location }}</td>
+                                            <td>{{ event.category|title }}</td>
+                                            <td>
+                                                <span class="badge {% if event.status == 'upcoming' %}bg-success{% elif event.status == 'completed' %}bg-secondary{% else %}bg-danger{% endif %}">
+                                                    {{ event.status|title }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                {% if session.role == 'faculty' %}
+                                                    <a href="{{ url_for('manage_event', event_id=event.id) }}" class="btn btn-primary btn-sm">Manage</a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p>No events found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
