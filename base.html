@@ -30,7 +30,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">
+            <a class="navbar-brand" href="index.html">
                 <i class="bi bi-calendar-event"></i> Event Management
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -40,18 +40,18 @@
                 <ul class="navbar-nav me-auto">
                     {% if session.user_id %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('dashboard') }}">
+                            <a class="nav-link" href="dashboard.html">
                                 <i class="bi bi-speedometer2"></i> Dashboard
                             </a>
                         </li>
                         {% if session.role == 'faculty' %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url_for('create_event') }}">
+                                <a class="nav-link" href="create_event.html">
                                     <i class="bi bi-plus-circle"></i> Create Event
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url_for('reports') }}">
+                                <a class="nav-link" href="reports.html">
                                     <i class="bi bi-graph-up"></i> Reports
                                 </a>
                             </li>
@@ -67,23 +67,23 @@
                             </span>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('logout') }}">
+                            <a class="nav-link" href="/logout">
                                 <i class="bi bi-box-arrow-right"></i> Logout
                             </a>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('faculty_login') }}">
+                            <a class="nav-link" href="faculty_login.html">
                                 <i class="bi bi-person-badge"></i> Faculty Login
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('student_login') }}">
+                            <a class="nav-link" href="student_login.html">
                                 <i class="bi bi-person"></i> Student Login
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('register') }}">
+                            <a class="nav-link" href="register.html">
                                 <i class="bi bi-person-plus"></i> Register
                             </a>
                         </li>
