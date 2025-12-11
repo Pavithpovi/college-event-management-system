@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 mb-4">
+        <h2>Event Management Reports</h2>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Event Statistics -->
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Event Statistics</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <h6>Total Events</h6>
+                    <h3>{{ event_stats.total_events or 0 }}</h3>
+                </div>
+                <div class="mb-3">
+                    <h6>Upcoming Events</h6>
+                    <h3>{{ event_stats.upcoming_events or 0 }}</h3>
+                </div>
+                <div class="mb-3">
+                    <h6>Completed Events</h6>
+                    <h3>{{ event_stats.completed_events or 0 }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Statistics -->
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Registration Statistics</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <h6>Total Registrations</h6>
+                    <h3>{{ registration_stats.total_registrations or 0 }}</h3>
+                </div>
+                <div class="mb-3">
+                    <h6>Present Count</h6>
+                    <h3>{{ registration_stats.present_count or 0 }}</h3>
+                </div>
+                <div class="mb-3">
+                    <h6>Absent Count</h6>
+                    <h3>{{ registration_stats.absent_count or 0 }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attendance Rate -->
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Attendance Rate</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <h6>Overall Attendance</h6>
+                    {% set total = registration_stats.total_registrations or 0 %}
+                    {% set present = registration_stats.present_count or 0 %}
+                    {% set attendance_rate = (present / total * 100)|round if total > 0 else 0 %}
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" 
+                             style="width: {{ attendance_rate }}%"
+                             aria-valuenow="{{ present }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="{{ total }}">
+                            {{ attendance_rate }}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popular Events -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Most Popular Events</h5>
+            </div>
+            <div class="card-body">
+                {% if popular_events %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Event Title</th>
+                                    <th>Category</th>
+                                    <th>Date</th>
+                                    <th>Registrations</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for event in popular_events %}
+                                    <tr>
+                                        <td>{{ event.title }}</td>
+                                        <td>{{ event.category|title }}</td>
+                                        <td>{{ event.date }}</td>
+                                        <td>{{ event.registration_count or 0 }}</td>
+                                        <td>
+                                            <span class="badge {% if event.status == 'upcoming' %}bg-success{% elif event.status == 'completed' %}bg-secondary{% else %}bg-danger{% endif %}">
+                                                {{ event.status|title }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p>No events found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Export Options -->
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Export Reports</h5>
+            </div>
+            <div class="card-body">
+                <div class="btn-group">
+                    <a href="{{ url_for('export_events') }}" class="btn btn-primary">Export Events</a>
+                    <a href="{{ url_for('export_registrations') }}" class="btn btn-success">Export Registrations</a>
+                    <a href="{{ url_for('export_attendance') }}" class="btn btn-info">Export Attendance</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

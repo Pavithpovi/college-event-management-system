@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .auth-container {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 2rem 0;
+    }
+    .auth-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+    .auth-header {
+        background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+        border-radius: 15px 15px 0 0;
+        padding: 1.5rem;
+    }
+    .auth-body {
+        padding: 2rem;
+    }
+    .btn-primary {
+        background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+        border: none;
+        padding: 0.8rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .form-control {
+        border-radius: 8px;
+        padding: 0.8rem;
+        border: 1px solid #e0e0e0;
+    }
+    .form-control:focus {
+        box-shadow: 0 0 0 0.2rem rgba(75, 108, 183, 0.25);
+        border-color: #4b6cb7;
+    }
+    .auth-links a {
+        color: #4b6cb7;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    .auth-links a:hover {
+        color: #182848;
+        text-decoration: underline;
+    }
+    .image-section {
+        background: url('https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') center/cover;
+        min-height: 100%;
+        position: relative;
+    }
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(75, 108, 183, 0.9) 0%, rgba(24, 40, 72, 0.9) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        color: white;
+        text-align: center;
+    }
+    .image-text h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+    .image-text p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+    }
+    @media (max-width: 768px) {
+        .image-section {
+            min-height: 300px;
+        }
+    }
+</style>
+
+<div class="auth-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="row g-0">
+                    <div class="col-md-6">
+                        <div class="image-section">
+                            <div class="image-overlay">
+                                <div class="image-text">
+                                    <h2>Faculty Portal</h2>
+                                    <p>Manage college events and track student participation with ease.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="auth-card h-100">
+                            <div class="auth-header text-white">
+                                <h4 class="mb-0 text-center">Faculty Login</h4>
+                            </div>
+                            <div class="auth-body">
+                                {% with messages = get_flashed_messages(with_categories=true) %}
+                                    {% if messages %}
+                                        {% for category, message in messages %}
+                                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endwith %}
+                                
+                                <form method="POST" action="{{ url_for('faculty_login') }}" class="needs-validation" novalidate>
+                                    <div class="mb-4">
+                                        <label for="username" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="username" name="username" required>
+                                        <div class="invalid-feedback">Please enter your username.</div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                        <div class="invalid-feedback">Please enter your password.</div>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary">Login</button>
+                                    </div>
+                                </form>
+                                
+                                <div class="auth-links mt-4 text-center">
+                                    <p>Are you a student? <a href="{{ url_for('student_login') }}">Login as Student</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Form validation
+(function () {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+</script>
+{% endblock %} 
